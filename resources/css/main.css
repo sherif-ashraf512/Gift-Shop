@@ -1,0 +1,285 @@
+/* Start Home Page */
+.product{
+    width: 18rem;
+    height:200px;
+    background:rgb(246, 245, 245);
+    border: 1px solid transparent;
+    border-radius: 20px;
+}
+
+.product img{
+    height:200px;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.product .product-title{
+    transform: translate(10px,-30px);
+    width: fit-content;
+    font-size:13px;
+    height:15px;
+}
+
+.product .product-title p{
+    transform: translateY(-8px);
+}
+
+.product .price{
+    transform: translate(200px,-46px);
+    width: fit-content;
+    height:20px;
+    font-size:13px;
+}
+
+.product .price p{
+    transform: translateY(-10px);
+}
+
+.product .price p span{
+    color: brown;
+}
+
+.all-products{
+    background-color: rgb(207, 89, 47);
+}
+
+.all-products:hover{
+    background-color: rgb(188, 98, 65);
+}
+
+.add-to-cart{
+    transform: translateX(80px);
+}
+/* Start Why Page */
+.why_section .box {
+    text-align: center;
+    margin-top: 45px;
+    background-color: #f9f8f7;
+    padding: 25px;
+    border-radius: 5px;
+}
+
+.why_section .box .img-box {
+    margin-bottom: 15px;
+}
+
+.why_section .box .img-box svg {
+    width: 55px;
+    height: auto;
+    fill: rgb(201, 75, 75);
+}
+/* End Why Page */
+/* End Home Page */
+
+/* Start Admin Dashboard Page */
+.admin-nav{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.admin-nav ul li a:hover{
+    color: white !important;
+}
+
+.nav li h1 span{
+    color: rgb(201, 75, 75);
+}
+
+.aside{
+    position: fixed;
+    top: 70px;
+    width: 15%;
+}
+
+.aside .img p{
+    transform: translateX(-15px);
+}
+
+.aside .img img{
+    width: 75px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    transform: translateX(-20px);
+}
+
+.aside ul .li.active{
+    background-color: rgba(46, 46, 46, 0.438);
+    border-left: 1px solid rgb(201, 75, 75);
+}
+
+.aside ul .li.active span:not(.a){
+    color: rgb(201, 75, 75) !important;
+}
+
+.aside ul .li span{
+    display: inline;
+}
+
+.aside ul .li:hover{
+    transition: all 0.5s;
+    background-color: rgba(46, 46, 46, 0.438);
+    border-left: 1px solid rgb(201, 75, 75);
+    cursor: pointer;
+}
+
+
+
+.aside ul .li:hover > span:not(.a){
+    color: rgb(201, 75, 75) !important;
+}
+
+.content{
+    position: absolute;
+    left: 15%;
+    top: 15%;
+    width: 85%;
+    padding: 20px;
+}
+
+.content .row .progress{
+    margin: 5px 0;
+    height: 4px;
+}
+
+.content .row .number{
+    font-size: 40px;
+    font-weight:bold
+}
+
+.dashtext-1{
+    color: blueviolet;
+}
+.dashtext-2{
+    color: rgb(208, 43, 226);
+}
+.dashtext-3{
+    color: rgb(226, 43, 95);
+}
+.dashtext-4{
+    color: rgb(120, 22, 211);
+}
+
+.dashbg-1{
+    background-color: blueviolet;
+}
+
+.dashbg-2{
+    background-color: rgb(208, 43, 226);
+}
+.dashbg-3{
+    background-color: rgb(226, 43, 95);
+}
+.dashbg-4{
+    background-color: rgb(120, 22, 211);
+}
+
+.progress-details h2::before{
+    content: '';
+    position: absolute;
+    border: 10px solid transparent;
+}
+
+.progress-details h2.high::before{
+    border-bottom:10px solid rgb(15, 170, 15);
+    transform: translate(-30px, -10px);
+}
+
+.progress-details h2.low::before{
+    border-top:10px solid red;
+    transform: translateX(-30px);
+}
+
+.info img{
+    width: 100px;
+    border: 1px solid gray;
+    border-radius: 50%;
+}
+
+.info .rank{
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    transform: translate(-40px,40px);
+}
+
+.message img{
+    width: 70px;
+    height: 70px;
+}
+
+.message .dot{
+    width: 15px;
+    height:15px;
+    transform:translate(-15px,-20px);
+}
+
+.message:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+
+.message:hover{
+    background-color: rgb(60 59 59 / 45%);
+}
+
+div.text{
+    transform: translate(-110px,40px);
+}
+
+.admin-footer{
+    position: absolute;
+    transform: translateX(-21px);
+    width: calc(100% + 21px);
+}
+/* End Admin Dashboard Page */
+/* Start Category page */
+.category form .form-control{
+    background-color: #faf6f6cd !important;
+    text-indent: 10px;
+}
+
+.category form .form-control:focus::placeholder{
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.submit{
+    background-color: rgb(201, 75, 75);
+}
+
+.submit:hover{
+    background-color: rgb(216, 116, 116);
+}
+/* End Category page */
+@media( max-width:767px) {
+    .aside{
+        top: 95px;
+    }
+    .aside .img img{
+        width: 50px;
+    }
+    .aside ul .li .a{
+        display: none;
+    }
+    .aside ul .li , #sidebar h3{
+        transform: translateX(-10px);
+    }
+    .aside .dropdown-menu{
+        transform: translate3d(0px, 311.5px, 0px) !important;
+        font-size: 12px;
+    }
+    #sidebar h3{
+        font-size: 15px;
+        margin-right: 10px
+    }
+
+    .statistic-block.border-end{
+        border: unset !important;
+        border-bottom: 1px solid black !important;
+    }
+
+    .rec-info{
+        width: 50% !important;
+    }
+}
