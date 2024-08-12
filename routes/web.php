@@ -64,6 +64,7 @@ Route::middleware(['auth' ,'admin'])->group(function () {
     Route::get('/orders/delivered/{order}',[AdminController::class , 'delivered'])->name('delivered'); // Update order status to "delivered"
     Route::get('/orders/print/{order}',[AdminController::class , 'print_order'])->name('order.print'); // Print an order
     Route::get('/set_admin',[AdminController::class , 'set_admin'])->name('admin.set'); // View all users who can be set as admins
+    Route::get('/user/search',[AdminController::class , 'search_user'])->name('user.search'); // Search for a user
     Route::get('/set/admin/{member}',[AdminController::class , 'change_to_admin'])->name('set.admin'); // Set a user as an admin
     Route::get('/set/user/{member}',[AdminController::class , 'change_to_user'])->name('set.user'); // Set a user back to regular user status
 });

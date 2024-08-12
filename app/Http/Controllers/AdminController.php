@@ -171,7 +171,14 @@ class AdminController extends Controller
 
     // Method to view users and set them as admins
     public function set_admin(){
-        $users = User::where('ability',0)->paginate(10); // Paginate users with ability set to 0 (non-admins)
+        $users = User::where('ability',0)->orderByRaw("FIELD(usertype, 'admin') DESC")->paginate(10); // Paginate users with ability set to 0 (non-admins)
+        return view('admin.set-admin' , compact('users'));
+    }
+
+    public function search_user(Request $request){
+        $search = $request->input('search'); // Get search input
+        empty($search) ? $users = User::where('ability',0)->orderByRaw("FIELD(usertype, 'admin') DESC")->paginate(10)
+                        : $users = User::where('ability',0)->whereAny(['name','email'],'LIKE',"%$search%")->orderByRaw("FIELD(usertype, 'admin') DESC")->paginate(10);
         return view('admin.set-admin' , compact('users'));
     }
 

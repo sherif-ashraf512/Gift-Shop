@@ -187,6 +187,11 @@ class HomeController extends Controller
         // Clear the user's cart after placing the order
         Cart::where('user_id', Auth::user()->id)->delete();
 
+        $user = Auth::user();
+        Notification::send($user, new PlaceOrder());//send email for user
+        $admins = User::where('usertype', 'admin')->get();
+        Notification::send($admins, new PlaceOrder());//send email for admins
+
         flash()->options(['timeout' => 5000, 'position' => 'top-center',])->success('Payment successful!');
         return redirect(route('myOrder'));
     }
