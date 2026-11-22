@@ -18,7 +18,7 @@ The **Gift Shop Web App** is an online platform designed to manage a gift shopâ€
 
 ### Prerequisites
 
-- PHP 8.0 or higher
+- PHP 8.2 or higher
 - Composer
 - MySQL or another database system
 - Node.js and npm (for front-end assets)
