@@ -26,6 +26,17 @@ class HomeController extends Controller
         return $count;
     }
 
+    // Private method to compute the cart total on the server from current product prices,
+    // summed in integer cents to avoid float-sum rounding issues.
+    // The charged amount must never come from the URL or any other client input.
+    private function cartTotalInCents(): int{
+        return (int) Cart::with('product')
+            ->where('user_id', Auth::user()->id)
+            ->get()
+            ->sum(fn ($cart) => (int) round(((float) $cart->product->price) * 100));
+    }
+
+
     // Method to display the home page with products and categories
     public function home(){
         $products = Product::orderBy('created_at', 'desc')->paginate(6);
@@ -112,17 +123,18 @@ class HomeController extends Controller
         return redirect(route('dashboard'));
     }
 
-    // Method to display the user's cart
+ // Method to display the user's cart
     public function my_cart(){
         $carts = Cart::where('user_id', Auth::user()->id)->get();
         $count = $this->get_count();
-        $total = 0;  // Initialize total to 0
+        $total = $this->cartTotalInCents() / 100;  // Total computed server-side from the user's cart
         return view('home.myCart', compact('carts', 'count', 'total'));
     }
 
-    // Method to delete a product from the cart
+ // Method to delete a product from the cart
     public function delete_cart($id){
-        $cart = Cart::find($id);
+        // Scoped to the authenticated user so one user cannot delete another user's cart row
+        $cart = Cart::where('user_id', Auth::user()->id)->findOrFail($id);
         $cart->delete();
         return redirect()->back();
     }
@@ -155,22 +167,44 @@ class HomeController extends Controller
         return view('home.myOrder', compact('orders', 'count'));
     }
 
-    // Method to display the Stripe payment page
-    public function stripe($total){
+ // Method to display the Stripe payment page
+    public function stripe(){
+        $totalCents = $this->cartTotalInCents();
+        if ($totalCents <= 0) {
+            flash()->options(['timeout' => 5000, 'position' => 'top-center',])->error('Your cart is empty.');
+            return redirect()->route('myCart');
+        }
+        $total = $totalCents / 100;
         return view('home.stripe', compact('total'));
     }
 
-    // Method to handle Stripe payment processing
-    public function stripePost(Request $request, $total){
+ // Method to handle Stripe payment processing
+    public function stripePost(Request $request){
+        $request->validate([
+            'stripeToken' => ['required', 'string'],
+        ]);
+
+        // Recalculate the total on the server right before charging
+        $totalCents = $this->cartTotalInCents();
+        if ($totalCents <= 0) {
+            flash()->options(['timeout' => 5000, 'position' => 'top-center',])->error('Your cart is empty.');
+            return redirect()->route('myCart');
+        }
+
         Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-        // Create a charge using Stripe API
-        Stripe\Charge::create ([
-            "amount" => $total * 100,
-            "currency" => "usd",
-            "source" => $request->stripeToken,
-            "description" => "Test payment from itsolutionstuff.com."
-        ]);
+        try {
+            // Create a charge using Stripe API with the server-side total
+            Stripe\Charge::create ([
+                "amount" => $totalCents,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Gift Shop order payment."
+            ]);
+        } catch (Stripe\Exception\CardException $e) {
+            flash()->options(['timeout' => 5000, 'position' => 'top-center',])->error($e->getMessage());
+            return redirect()->route('stripe');
+        }
 
         // After successful payment, create orders for the user
         $carts = Cart::where('user_id', Auth::user()->id)->get();

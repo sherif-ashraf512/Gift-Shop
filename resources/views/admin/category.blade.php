@@ -52,7 +52,11 @@
                                 {{-- Edit button --}}
                                 <a class="btn btn-info d-inline-block m-1 fw-bold" href="{{route('category.edit', $category->id)}}">Edit</a>
                                 {{-- Delete button with confirmation prompt --}}
-                                <a onclick="return confirm('Are You Sure You Want Delete This Category ?')" class="btn btn-danger m-1 d-inline-block fw-bold" href="{{route('category.delete', $category->id)}}">Delete</a>
+                                <form method="POST" action="{{route('category.delete', $category->id)}}" class="d-inline-block m-1" onsubmit="return confirm('Are You Sure You Want Delete This Category ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger fw-bold">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

@@ -19,7 +19,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <form id='checkout-form' method='post' action="{{route('stripe.post',$total)}}">
+                    <form id='checkout-form' method='post' action="{{route('stripe.post')}}">
                             @csrf
                             <input type='hidden' name='stripeToken' id='stripe-token-id'>
                             <label for="card-element" class="mb-5">Checkout Forms</label>
@@ -30,7 +30,7 @@
                                 class="btn btn-success mt-3"
                                 type="button"
                                 style="margin-top: 20px; width: 100%;padding: 7px;"
-                                onclick="createToken()">PAY ${{$total}}
+                                onclick="createToken()">PAY ${{number_format($total, 2)}}
                             </button>
                         <form>
                     </div>

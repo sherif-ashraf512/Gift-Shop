@@ -44,7 +44,10 @@
                     </div>
                     <!-- Add to cart button -->
                     <div class="mb-3 d-flex justify-content-center">
-                        <a href="{{route('cart.add',$product->id)}}" class="btn btn-primary px-5 text-light fw-bold">Add To Cart</a>
+                        <form method="POST" action="{{route('cart.add',$product->id)}}" class="d-inline-block">
+                            @csrf
+                            <button type="submit" class="btn btn-primary px-5 text-light fw-bold">Add To Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>

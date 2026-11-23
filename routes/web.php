@@ -35,13 +35,13 @@ Route::middleware('auth')->group(function () {
 // Routes For User (authenticated and verified users)
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/dashboard',[HomeController::class,'home'])->name('dashboard'); // Dashboard page for users
-    Route::get('/cart/{id}',[HomeController::class,'add_cart'])->name('cart.add'); // Add item to cart
+    Route::post('/cart/{id}',[HomeController::class,'add_cart'])->name('cart.add'); // Add item to cart
     Route::get('/myCart',[HomeController::class,'my_cart'])->name('myCart'); // View user's cart
-    Route::get('/myCart/{cart}',[HomeController::class,'delete_cart'])->name('cart.delete'); // Delete item from cart
+    Route::delete('/myCart/{cart}',[HomeController::class,'delete_cart'])->name('cart.delete'); // Delete item from cart
     Route::post('/order',[HomeController::class,'place_order'])->name('order.place'); // Place an order
     Route::get('/myOrder',[HomeController::class,'my_order'])->name('myOrder'); // View user's orders
-    Route::get('/stripe/{value}',[HomeController::class,'stripe'])->name('stripe'); // Stripe payment page
-    Route::post('/stripe/{value}',[HomeController::class,'stripePost'])->name('stripe.post'); // Handle Stripe payment
+    Route::get('/stripe',[HomeController::class,'stripe'])->name('stripe'); // Stripe payment page (total computed server-side from the cart)
+    Route::post('/stripe',[HomeController::class,'stripePost'])->name('stripe.post'); // Handle Stripe payment
 });
 
 // Routes For Admin (authenticated and admin users)
@@ -51,20 +51,20 @@ Route::middleware(['auth' ,'admin'])->group(function () {
     Route::post('/category',[AdminController::class , 'add_category'])->name('category.add'); // Add a new category
     Route::get('/category/edit/{category}',[AdminController::class , 'edit_category'])->name('category.edit'); // Edit a category
     Route::post('/category/{category}',[AdminController::class , 'update_category'])->name('category.update'); // Update a category
-    Route::get('/category/delete/{category}',[AdminController::class , 'destroy_category'])->name('category.delete'); // Delete a category
+    Route::delete('/category/{category}',[AdminController::class , 'destroy_category'])->name('category.delete'); // Delete a category
     Route::get('/product',[AdminController::class , 'product'])->name('admin.product'); // View product page
     Route::get('/products',[AdminController::class , 'view_products'])->name('admin.products'); // View all products
     Route::post('/product',[AdminController::class , 'add_product'])->name('product.add'); // Add a new product
-    Route::get('/product/delete/{product}',[AdminController::class , 'destroy_product'])->name('product.delete'); // Delete a product
+    Route::delete('/product/{product}',[AdminController::class , 'destroy_product'])->name('product.delete'); // Delete a product
     Route::get('/product/edit/{product}',[AdminController::class , 'edit_product'])->name('product.edit'); // Edit a product
     Route::post('/product/{product}',[AdminController::class , 'update_product'])->name('product.update'); // Update a product
     Route::get('/product/search',[AdminController::class , 'search_product'])->name('product.search'); // Search for a product
     Route::get('/orders',[AdminController::class , 'view_orders'])->name('admin.order'); // View all orders
-    Route::get('/orders/on_the_way/{order}',[AdminController::class , 'on_the_way'])->name('on_way'); // Update order status to "on the way"
-    Route::get('/orders/delivered/{order}',[AdminController::class , 'delivered'])->name('delivered'); // Update order status to "delivered"
+    Route::patch('/orders/{order}/on-the-way',[AdminController::class , 'on_the_way'])->name('on_way'); // Update order status to "on the way
+    Route::patch('/orders/{order}/delivered',[AdminController::class , 'delivered'])->name('delivered'); // Update order status to "delivered"
     Route::get('/orders/print/{order}',[AdminController::class , 'print_order'])->name('order.print'); // Print an order
     Route::get('/set_admin',[AdminController::class , 'set_admin'])->name('admin.set'); // View all users who can be set as admins
     Route::get('/user/search',[AdminController::class , 'search_user'])->name('user.search'); // Search for a user
-    Route::get('/set/admin/{member}',[AdminController::class , 'change_to_admin'])->name('set.admin'); // Set a user as an admin
-    Route::get('/set/user/{member}',[AdminController::class , 'change_to_user'])->name('set.user'); // Set a user back to regular user status
+    Route::patch('/users/{member}/make-admin',[AdminController::class , 'change_to_admin'])->name('set.admin'); // Set a user as an admin
+    Route::patch('/users/{member}/make-user',[AdminController::class , 'change_to_user'])->name('set.user'); // Set a user back to regular user status
 });

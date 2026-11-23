@@ -57,8 +57,16 @@
                                     <td class="status">{{$order->status}}</td>
                                     <td>
                                         <!-- Buttons to change the status of the order -->
-                                        <a class="d-inline-block m-1 fw-bold btn btn-danger" href="{{route('on_way',$order->id)}}">On The Way</a>
-                                        <a class="d-inline-block m-1 fw-bold btn btn-success" href="{{route('delivered',$order->id)}}">Delivered</a>
+                                        <form method="POST" action="{{route('on_way',$order->id)}}" class="d-inline-block m-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="fw-bold btn btn-danger">On The Way</button>
+                                        </form>
+                                        <form method="POST" action="{{route('delivered',$order->id)}}" class="d-inline-block m-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="fw-bold btn btn-success">Delivered</button>
+                                        </form>
                                     </td>
                                     <td>
                                         <!-- Button to print the order -->

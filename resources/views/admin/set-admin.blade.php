@@ -47,8 +47,16 @@
                                     <td>{{$user->usertype}}</td>
                                     <td>
                                         <!-- Buttons to change the user type -->
-                                        <a class="d-inline-block m-1 fw-bold btn btn-danger" href="{{route('set.user',$user->id)}}">User</a>
-                                        <a class="d-inline-block m-1 fw-bold btn btn-success" href="{{route('set.admin',$user->id)}}">Admin</a>
+                                        <form method="POST" action="{{route('set.user',$user->id)}}" class="d-inline-block m-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="fw-bold btn btn-danger">User</button>
+                                        </form>
+                                        <form method="POST" action="{{route('set.admin',$user->id)}}" class="d-inline-block m-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="fw-bold btn btn-success">Admin</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

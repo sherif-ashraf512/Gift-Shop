@@ -34,7 +34,10 @@
             </div>
             <div class="d-flex">
                 <a href="{{route('product.details',$product->slug)}}" class="btn btn-primary fw-bold m-1">Details</a>
-                <a href="{{route('cart.add',$product->id)}}" class="btn submit add-to-cart text-light fw-bold m-1">Add To Cart</a>
+                <form method="POST" action="{{route('cart.add',$product->id)}}" class="d-inline-block m-1">
+                    @csrf
+                    <button type="submit" class="btn submit add-to-cart text-light fw-bold">Add To Cart</button>
+                </form>
             </div>
         </div>
     @endforeach

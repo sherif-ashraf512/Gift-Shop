@@ -42,17 +42,19 @@
                                 <img width="100" src="{{"storage/".$cart->product->image}}" alt="...">
                             </td>
                             <td>
-                                <a onclick="return confirm('Are You Sure You Want To Delete This Cart?')" href="{{route('cart.delete', $cart->id)}}" class="btn btn-danger">Delete</a>
+                                <form method="POST" action="{{route('cart.delete', $cart->id)}}" onsubmit="return confirm('Are You Sure You Want To Delete This Cart?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
-                        <!-- Accumulate total price of cart items -->
-                        <input type="hidden" value="{{$total += $cart->product->price}}">
                     @endforeach
                 </tbody>
             </table>
             <!-- Display total price of cart -->
             <div class="text-center mb-3 fw-bold">
-                <p>Total Price Of Cart: $<span class="dashtext-3">{{$total}}</span></p>
+                <p>Total Price Of Cart: $<span class="dashtext-3">{{number_format($total, 2)}}</span></p>
             </div>
             <div class="d-flex justify-content-center">
                 <!-- Display errors if any -->
@@ -82,7 +84,7 @@
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-primary fw-bold" type="submit">Cash On Delivery</button>
-                        <a class="btn btn-success fw-bold" href="{{route('stripe', $total)}}">Pay Using Card</a>
+                        <a class="btn btn-success fw-bold" href="{{route('stripe')}}">Pay Using Card</a>
                     </div>
                 </form>
             </div>

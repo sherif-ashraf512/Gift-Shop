@@ -48,7 +48,11 @@
                             <div class="d-flex justify-content-between">
                                 <!-- Edit and Delete buttons -->
                                 <a class="btn m-1 btn-info" href="{{route('product.edit',$product->slug)}}">Edit</a>
-                                <a class="btn m-1 btn-danger" onclick="return confirm('Are You Sure You Want To Delete?')" href="{{route('product.delete',$product->id)}}">Delete</a>
+                                <form method="POST" action="{{route('product.delete',$product->id)}}" class="d-inline-block m-1" onsubmit="return confirm('Are You Sure You Want To Delete?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
